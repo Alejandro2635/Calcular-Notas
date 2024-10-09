@@ -13,6 +13,39 @@
                 <div class="row">
                     <div class="col-12" style="margin: 20px">
                         <div>
+                            <table border="1">
+                                <thead>
+                                <tr>
+                                    <th>Asignatura</th>
+                                    <th>Media</th>
+                                    <th>Suspensos</th>
+                                    <th>Aprobados</th>
+                                    <th>Máxima Nota</th>
+                                    <th>Alumno con Máxima Nota</th>
+                                    <th>Mínima Nota</th>
+                                    <th>Alumno con Mínima Nota</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach ($data["resultado"] as $asignatura => $info) {
+                                    echo "<tr>";
+
+                                    echo "<td>".$asignatura."</td>";
+                                    echo "<td>".$info["media"] ?? " "."</td>";
+                                    echo "<td>".$info["suspensos"] ?? " "."</td>";
+                                    echo "<td>".$info["aprobados"] ?? " "."</td>";
+                                    echo "<td>".$info["max"]["nota"] ?? " "."</td>";
+                                    echo "<td>".$info["max"]["alumno"] ?? " "."</td>";
+                                    echo "<td>".$info["min"]["nota"] ?? " "."</td>";
+                                    echo "<td>".$info["min"]["alumno"] ?? " "."</td>";
+
+                                    echo "</tr>";
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>

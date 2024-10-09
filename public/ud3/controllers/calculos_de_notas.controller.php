@@ -3,9 +3,10 @@
 if(isset($_POST["json"])){
 
     $errors = checkForm($_POST);
+    $data["input_json"] = filter_var($_POST['json'], FILTER_SANITIZE_SPECIAL_CHARS);
 
     if(count($errors) > 0){
-        $data["input_json"] = filter_var($_POST['json'], FILTER_SANITIZE_SPECIAL_CHARS);
+
         $data["errors"] = $errors;
     }else{
 
@@ -25,9 +26,10 @@ if(isset($_POST["json"])){
                 if(!in_array($nombre_alumno, $alumnos)){
                     $alumnos[] = $nombre_alumno;
                 }
-
+                $notas_alumno = [];
                 foreach ($notas as $nota) {
-                    $notas_alumnos[] = $nota;
+                    $notas_alumno[] = $nota;
+
                     if($nota < 5 && !in_array($nombre_alumno, $suspensos)){
                         $suspensos[] = $nombre_alumno;
                     }
@@ -40,6 +42,9 @@ if(isset($_POST["json"])){
                         $alumn_min = $nombre_alumno;
                     }
                 }
+
+                $notas_alumnos[] = array_sum($notas_alumno)/count($notas_alumno);
+
             }
 
             $_resultado[$asignatura]["media"] = round(array_sum($notas_alumnos)/count($notas_alumnos),2);
@@ -50,9 +55,8 @@ if(isset($_POST["json"])){
             $_resultado[$asignatura]["min"]["nota"] = $nota_min;
             $_resultado[$asignatura]["min"]["alumno"] = $alumn_min;
         }
+        $data["resultado"] = $_resultado;
     }
-    var_dump($_resultado);
-
 
 }
 
