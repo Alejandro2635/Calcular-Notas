@@ -1,6 +1,6 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Iterativas 06</h1>
+    <h1 class="h3 mb-0 text-gray-800">Calculo de notas con JSON</h1>
 </div>
 <div class="row">
     <div class="col-12">
@@ -13,9 +13,9 @@
 
         <?php if(isset($data["resultado"])){?>
             <div class="card shadow mb-4">
-                <div class="col-12 " style="margin: 20px">
+                <div class="col-12 " style="margin-top: 15px">
                     <div>
-                        <table  border="1px" class="table table-striped table-bordered dataTable" style="width: 97%">
+                        <table  border="1px" class="table table-striped table-bordered dataTable" >
                             <thead>
                             <tr>
                                 <th>Asignatura</th>
@@ -124,7 +124,11 @@
                         <label for="textarea">Inserte un JSON</label>
                         <textarea class="form-control" id="json" name="json"
                                   rows="3"><?php echo $data['input_json'] ?? ''; ?></textarea>
-                        <p class="text-danger small"><?php echo $data['errors']['json'] ?? ''; ?></p>
+                        <p class="text-danger small"><?php
+                                if(isset($data['errors']['json'])){
+                                    echo implode(" || ",$data['errors']['json']);
+                                }
+                            ?></p>
                     </div>
                     <div class="mb-3">
                         <input type="submit" value="Enviar" name="enviar" class="btn btn-primary">

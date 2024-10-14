@@ -72,7 +72,7 @@ if (isset($_POST["json"])) {
         }
         $data["resultado"] = $_resultado;
         $data["alumnos_status"] = $alumnos_status;
-        var_dump($alumnos_status);
+
     }
 
 }
@@ -85,8 +85,31 @@ function checkForm($data): array
     if (empty($data["json"])) {
         $errors["json"][] = "El formulario está vacio";
     } else {
-        if (is_null($info)) {
-            $errors["json"][] = "El json está mal formado";
+        if(is_null(json_decode($data['json']))){
+            $errors["json"] = "Debes insertar un json";
+        }else{
+            foreach ($info as $asignatura => $alumnos) {
+                if(!is_string($asignatura)){
+                    $errors["json"][] = "{$asignatura} no es un String";
+                }else{
+                    foreach ($alumnos as $nombre_alumno => $notas) {
+                        if(!is_string($nombre_alumno)){
+                            $errors["json"][] = "{$nombre_alumno} de la asignatura {$asignatura} no es un String";
+                        }else {
+                            foreach ($notas as $nota) {
+                                if(!is_numeric($nota)){
+                                    $errors["json"][] = "La nota {$nota} del alumno {$nombre_alumno} de la asignatura {$asignatura} no es un numerico ";
+                                }else{
+                                    if($nota < 0 || $nota > 10){
+                                        $errors["json"][] = "La nota {$nota} del alumno {$nombre_alumno} de la asignatura {$asignatura} tiene que ser un numero entre 0-10";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
 
