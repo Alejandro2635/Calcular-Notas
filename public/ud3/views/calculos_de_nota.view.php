@@ -58,7 +58,7 @@
 
                         foreach ($data["alumnos_status"] as $nombre_alumno => $suspensos){
                             echo "<ul>";
-                            if($suspensos == 00){
+                            if($suspensos == 0){
                                 echo "<li>{$nombre_alumno}</li>";
                             }
                             echo "</ul>";
@@ -89,7 +89,7 @@
                         <?php
                         foreach ($data["alumnos_status"] as $nombre_alumno => $suspensos){
                             echo "<ul>";
-                            if($suspensos == 1){
+                            if($suspensos <= 1){
                                 echo "<li>{$nombre_alumno}</li>";
                             }
                             echo "</ul>";
