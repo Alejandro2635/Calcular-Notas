@@ -15,32 +15,21 @@ if (isset($_POST["json"])) {
 
         $alumnos_status = [];
 
-        foreach ($info as $asignatura => $alumns) {
+        foreach ($info as $asignatura => $alumnos) {
             $notas = [];
-            $suspensos = [];
-            $alumnos = [];
+            $suspensos = 0;
             $alumn_max = "";
             $nota_max = -1;
             $alumn_min = "";
             $nota_min = 11;
             $notas_alumnos = [];
-            foreach ($alumns as $nombre_alumno => $notas) {
-                $asignatura_suspendida = false;
-
-                if (!in_array($nombre_alumno, $alumnos)) {
-                    $alumnos[] = $nombre_alumno;
-                }
+            foreach ($alumnos as $nombre_alumno => $notas) {
 
                 $notas_alumno = [];
                 foreach ($notas as $nota) {
                     $notas_alumno[] = $nota;
 
-                    if ($nota < 5 && !in_array($nombre_alumno, $suspensos)) {
-                        $suspensos[] = $nombre_alumno;
-                    }
-                    if ($nota < 5) {
-                        $asignatura_suspendida = true;
-                    }
+
                     if ($nota > $nota_max) {
                         $nota_max = $nota;
                         $alumn_max = $nombre_alumno;
@@ -55,16 +44,22 @@ if (isset($_POST["json"])) {
                     $alumnos_status[$nombre_alumno] = 0;
                 }
 
-                if ($asignatura_suspendida) {
+                if (array_sum($notas_alumno) / count($notas_alumno) < 5) {
                     $alumnos_status[$nombre_alumno]++;
                 }
 
                 $notas_alumnos[] = array_sum($notas_alumno) / count($notas_alumno);
+
+                if (round(array_sum($notas_alumno) / count($notas_alumno), 2) < 5) {
+                    $suspensos++;
+                }
             }
 
+
+
             $_resultado[$asignatura]["media"] = round(array_sum($notas_alumnos) / count($notas_alumnos), 2);
-            $_resultado[$asignatura]["suspensos"] = count($suspensos);
-            $_resultado[$asignatura]["aprobados"] = count(array_diff($alumnos, $suspensos));
+            $_resultado[$asignatura]["suspensos"] = $suspensos;
+            $_resultado[$asignatura]["aprobados"] = count($alumnos)-$suspensos;
             $_resultado[$asignatura]["max"]["nota"] = $nota_max;
             $_resultado[$asignatura]["max"]["alumno"] = $alumn_max;
             $_resultado[$asignatura]["min"]["nota"] = $nota_min;

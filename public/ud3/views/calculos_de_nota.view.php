@@ -69,7 +69,7 @@
 
 
                 <div class="col-12 col-lg-6">
-                    <div class="alert alert-warning"> Suspendido almenos una:
+                    <div class="alert alert-warning"> Suspendió almenos una:
 
                         <?php
                         foreach ($data["alumnos_status"] as $nombre_alumno => $suspensos){
